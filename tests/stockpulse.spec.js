@@ -193,3 +193,39 @@ test('initial page load has no uncaught JavaScript errors or failed same-origin 
   expect(failedSameOriginRequests, 'Failed same-origin network requests').toEqual([]);
 });
 
+test('tablet layout keeps primary controls and page within the viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
+
+  await expect(page.locator('#stock-form')).toBeVisible();
+  await expect(page.locator('#stock-name')).toBeVisible();
+  await expect(page.locator('#stock-date')).toBeVisible();
+  await expect(page.locator('#open-watchlist')).toBeVisible();
+
+  const dimensions = await page.evaluate(() => ({
+    viewportWidth: document.documentElement.clientWidth,
+    documentWidth: document.documentElement.scrollWidth
+  }));
+  expect(
+    dimensions.documentWidth,
+    `Tablet horizontal overflow: document width ${dimensions.documentWidth}px vs viewport ${dimensions.viewportWidth}px`
+  ).toBeLessThanOrEqual(dimensions.viewportWidth);
+});
+
+test('watchlist opens and closes with its controls', async ({ page }) => {
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
+  const watchlist = page.locator('#watchlist-sidebar');
+
+  await page.locator('#open-watchlist').click();
+  await expect(watchlist).toHaveClass(/open/);
+
+  const closeButton = watchlist.locator('button').filter({ has: page.locator('svg') }).first();
+  if (await closeButton.count()) {
+    await closeButton.click();
+    await expect(watchlist).not.toHaveClass(/open/);
+  } else {
+    // Avoid silently claiming close behavior was tested if no close control is available.
+    throw new Error('Could not find a close control inside the watchlist sidebar');
+  }
+});
+
