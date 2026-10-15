@@ -17,8 +17,9 @@ test('stock API rejects an invalid symbol', async ({ request }) => {
 
 test('stock API returns historical data for TCS', async ({ request }) => {
   const response = await request.get(`${BASE_URL}/api/stock?stock=TCS&date=${TEST_DATE}&range=15`);
-  expect(response.ok(), await response.text()).toBeTruthy();
-  const data = await response.json();
+  const responseBody = await response.json();
+  expect(response.ok(), JSON.stringify(responseBody)).toBeTruthy();
+  const data = responseBody;
   expect(data.stock).toBe('TCS');
   expect(Number(data.price)).toBeGreaterThan(0);
   expect(Array.isArray(data.history)).toBeTruthy();
