@@ -21,7 +21,7 @@ jobs:
           node-version: 20
       - name: Install test dependencies
         run: |
-          npm ci
+          npm install
           npx playwright install --with-deps chromium
       - name: Run live-site API and browser tests
         env:
