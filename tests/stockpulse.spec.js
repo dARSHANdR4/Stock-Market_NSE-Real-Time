@@ -63,3 +63,92 @@ test('stock page renders data, charts, AI insights and persistent watchlist', as
   await expect(page.locator('#watchlist-items')).toContainText('Your watchlist is empty.');
   expect(pageErrors, 'Unexpected browser JavaScript errors').toEqual([]);
 });
+
+test('theme toggle switches mode and persists after reload', async ({ page }) => {
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
+  const root = page.locator('html');
+  await expect(root).toHaveAttribute('data-theme', 'light');
+
+  await page.locator('#toggle-theme').click();
+  await expect(root).toHaveAttribute('data-theme', 'dark');
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('stpac_theme'))).toBe('dark');
+
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await expect(root).toHaveAttribute('data-theme', 'dark');
+});
+
+test('target date blocks dates in the future', async ({ page }) => {
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
+  const date = page.locator('#stock-date');
+  await expect(date).toHaveAttribute('max', /^\\d{4}-\\d{2}-\\d{2}$/);
+  await date.fill('2099-01-01');
+  expect(await date.evaluate(el => el.validity.rangeOverflow)).toBeTruthy();
+});
+
+test('How It Works section expands and collapses', async ({ page }) => {
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
+  const content = page.locator('#how-it-works-content');
+  await expect(content).toHaveClass(/hidden/);
+
+  await page.locator('#toggle-how-it-works').click();
+  await expect(content).not.toHaveClass(/hidden/);
+
+  await page.locator('#toggle-how-it-works').click();
+  await expect(content).toHaveClass(/hidden/);
+});
+
+test('autocomplete shows matching stock suggestions and selects a symbol', async ({ page }) => {
+  await page.route('https://raw.githubusercontent.com/akashgiri/stocks-list/master/nse-listed-stocks.json', async route => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        'Reliance Industries Limited': 'RELIANCE',
+        'Tata Consultancy Services Limited': 'TCS',
+        'HDFC Bank Limited': 'HDFCBANK'
+      })
+    });
+  });
+
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
+  const input = page.locator('#stock-name');
+  const suggestions = page.locator('#suggestions');
+
+  await input.fill('reli');
+  await expect(suggestions).toBeVisible();
+  await expect(suggestions.locator('.suggestion-item')).toContainText('RELIANCE');
+  await suggestions.locator('.suggestion-item').filter({ hasText: 'RELIANCE' }).click();
+  await expect(input).toHaveValue('RELIANCE');
+  await expect(suggestions).toBeHidden();
+});
+
+test('chart timeframe buttons request the selected range', async ({ page }) => {
+  await page.route('**/api/insights', async route => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ text: 'Trend: Stable\\nSupport: 100\\nResistance: 120\\nRisk: Moderate\\nBULLISH' })
+    });
+  });
+
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
+  await page.locator('#stock-name').fill('TCS');
+  await page.locator('#stock-date').fill(TEST_DATE);
+  await page.locator('#stock-form button[type="submit"]').click();
+  await expect(page.locator('#price-card')).toBeVisible({ timeout: 30000 });
+
+  const sixMonthResponse = page.waitForResponse(response =>
+    response.url().includes('/api/stock?') && response.url().includes('range=90')
+  );
+  await page.locator('.timeframe-btn[data-range="90"]').click();
+  await sixMonthResponse;
+  await expect(page.locator('.timeframe-btn[data-range="90"]')).toHaveClass(/timeframe-btn-active/);
+
+  const oneYearResponse = page.waitForResponse(response =>
+    response.url().includes('/api/stock?') && response.url().includes('range=180')
+  );
+  await page.locator('.timeframe-btn[data-range="180"]').click();
+  await oneYearResponse;
+  await expect(page.locator('.timeframe-btn[data-range="180"]')).toHaveClass(/timeframe-btn-active/);
+});
+
