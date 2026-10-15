@@ -219,13 +219,7 @@ test('watchlist opens and closes with its controls', async ({ page }) => {
   await page.locator('#open-watchlist').click();
   await expect(watchlist).toHaveClass(/open/);
 
-  const closeButton = watchlist.locator('button').filter({ has: page.locator('svg') }).first();
-  if (await closeButton.count()) {
-    await closeButton.click();
-    await expect(watchlist).not.toHaveClass(/open/);
-  } else {
-    // Avoid silently claiming close behavior was tested if no close control is available.
-    throw new Error('Could not find a close control inside the watchlist sidebar');
-  }
+  await page.locator('#close-watchlist').click();
+  await expect(watchlist).not.toHaveClass(/open/);
 });
 
