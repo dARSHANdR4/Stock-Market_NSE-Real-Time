@@ -45,7 +45,7 @@ test('stock page renders data, charts, AI insights and persistent watchlist', as
   await expect(page.locator('#rsi-chart')).toBeVisible();
 
   // The production AI endpoint is exercised as part of this end-to-end test.
-  await expect(page.locator('#insights-content').locator('div')).toHaveCount(4, { timeout: 60000 });
+  await expect(page.locator('#insights-content > div')).toHaveCount(4, { timeout: 60000 });
   await expect(page.locator('#sentiment-badge')).toBeVisible({ timeout: 10000 });
 
   await page.locator('#toggle-favorite').click();
