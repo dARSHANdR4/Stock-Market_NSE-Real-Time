@@ -872,32 +872,20 @@
 
             // --- Backend Communication ---
             async function fetchDataFromGoogleSheet(stockName, dateStr, rangeDays) {
-                if (typeof google !== 'undefined' && google.script && google.script.run) {
-                    return new Promise((resolve, reject) => {
-                        google.script.run
-                            .withSuccessHandler((data) => {
-                                if (data && data.error) reject(new Error(data.error));
-                                else resolve(data);
-                            })
-                            .withFailureHandler((err) => reject(new Error("Apps Script Error: " + err.message)))
-                            .getStockData(stockName, dateStr, rangeDays);
-                    });
+                // Use a same-origin Cloudflare Pages Function to avoid browser CORS failures
+                // when Google Apps Script redirects its Web App response.
+                const params = new URLSearchParams({
+                    stock: stockName,
+                    date: dateStr,
+                    range: String(rangeDays)
+                });
+                const response = await fetch(`/api/stock?${params.toString()}`);
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    throw new Error(data.error || `Market-data service returned HTTP ${response.status}.`);
                 }
-
-                if (!APPS_SCRIPT_URL) {
-                    throw new Error("External Hosting Error: APPS_SCRIPT_URL not configured. Please paste your Google Web App URL in the script configuration section.");
-                }
-
-                try {
-                    const url = `${APPS_SCRIPT_URL}?action=getStockData&stock=${encodeURIComponent(stockName)}&date=${encodeURIComponent(dateStr)}&range=${rangeDays}`;
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error(`Market-data endpoint returned HTTP ${response.status} ${response.statusText}`);
-                    const data = await response.json();
-                    if (data && data.error) throw new Error(data.error);
-                    return data;
-                } catch (err) {
-                    throw new Error("External Fetch Error: " + err.message);
-                }
+                if (data && data.error) throw new Error(data.error);
+                return data;
             }
 
             // --- Event Listeners ---
