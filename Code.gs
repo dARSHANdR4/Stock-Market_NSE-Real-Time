@@ -77,6 +77,7 @@ function getStockData(stockName, dateStr, rangeDays) {
     // 4. Process Grid
     var historyData = [];
     var targetPrice = null;
+    var matchedDate = null;
 
     for (var j = 1; j < dataRows.length; j++) {
       var row = dataRows[j];
@@ -99,18 +100,24 @@ function getStockData(stockName, dateStr, rangeDays) {
         c: parseFloat(closePrice.toFixed(2))
       };
       
-      if (isoDateStr === dateStr) targetPrice = point.c;
+      // Use the latest available trading close on or before the requested date.
+      if (isoDateStr <= dateStr) {
+        targetPrice = point.c;
+        matchedDate = isoDateStr;
+      }
       historyData.push(point);
     }
     
-    if (!targetPrice && historyData.length > 0) targetPrice = historyData[historyData.length - 1].c;
+    if (targetPrice === null || matchedDate === null) {
+      return { error: "No historical trading close was found on or before " + dateStr + "." };
+    }
 
     mainSheet.getRange(logRow, 3).setValue(targetPrice);
     var peResult = mainSheet.getRange(logRow, 4).getValue();
 
     return {
       stock: stockName,
-      date: Utilities.formatDate(targetDateObj, ss.getSpreadsheetTimeZone(), 'dd MMMM yyyy'),
+      date: Utilities.formatDate(new Date(matchedDate + "T12:00:00"), ss.getSpreadsheetTimeZone(), 'dd MMMM yyyy'),
       price: targetPrice,
       peRatio: (typeof peResult === 'number' && !isNaN(peResult)) ? parseFloat(peResult.toFixed(2)) : "N/A",
       history: historyData
