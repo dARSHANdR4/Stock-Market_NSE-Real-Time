@@ -80,7 +80,9 @@ test('theme toggle switches mode and persists after reload', async ({ page }) =>
 test('target date blocks dates in the future', async ({ page }) => {
   await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
   const date = page.locator('#stock-date');
-  await expect(date).toHaveAttribute('max', /^\\d{4}-\\d{2}-\\d{2}$/);
+  const maxDate = await date.getAttribute('max');
+  expect(maxDate).toBeTruthy();
+  expect(Number.isNaN(Date.parse(maxDate))).toBeFalsy();
   await date.fill('2099-01-01');
   expect(await date.evaluate(el => el.validity.rangeOverflow)).toBeTruthy();
 });
