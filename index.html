@@ -656,7 +656,7 @@
                         card.className = 'p-4 bg-teal-500/5 rounded-xl border border-teal-500/10';
                         const p = document.createElement('p');
                         p.className = 'text-slate-950 dark:text-slate-100';
-                        p.textContent = line.replace(/^\d+[.)]\s*/, '• ');
+                        p.textContent = line.replace(/\*\*(.*?)\*\*/g, '$1').replace(/^\d+[.)]\s*/, '• ');
                         card.appendChild(p);
                         insightsContent.appendChild(card);
                     });
