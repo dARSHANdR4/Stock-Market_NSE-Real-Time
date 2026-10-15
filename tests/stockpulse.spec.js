@@ -154,3 +154,42 @@ test('chart timeframe buttons request the selected range', async ({ page }) => {
   await expect(page.locator('.timeframe-btn[data-range="180"]')).toHaveClass(/timeframe-btn-active/);
 });
 
+test('mobile layout keeps main controls within the viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
+
+  await expect(page.locator('#stock-form')).toBeVisible();
+  await expect(page.locator('#stock-name')).toBeVisible();
+  await expect(page.locator('#stock-date')).toBeVisible();
+  await expect(page.locator('#toggle-theme')).toBeVisible();
+  await expect(page.locator('#open-watchlist')).toBeVisible();
+
+  const dimensions = await page.evaluate(() => ({
+    viewportWidth: document.documentElement.clientWidth,
+    documentWidth: document.documentElement.scrollWidth
+  }));
+  expect(
+    dimensions.documentWidth,
+    `Mobile horizontal overflow: document width ${dimensions.documentWidth}px vs viewport ${dimensions.viewportWidth}px`
+  ).toBeLessThanOrEqual(dimensions.viewportWidth);
+});
+
+test('initial page load has no uncaught JavaScript errors or failed same-origin requests', async ({ page }) => {
+  const pageErrors = [];
+  const failedSameOriginRequests = [];
+  page.on('pageerror', error => pageErrors.push(error.message));
+  page.on('requestfailed', request => {
+    if (new URL(request.url()).origin === new URL(BASE_URL).origin) {
+      failedSameOriginRequests.push(`${request.method()} ${request.url()}: ${request.failure()?.errorText || 'request failed'}`);
+    }
+  });
+
+  const response = await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
+  expect(response?.ok()).toBeTruthy();
+  await expect(page.locator('#stock-form')).toBeVisible();
+  await page.waitForTimeout(1500);
+
+  expect(pageErrors, 'Uncaught browser JavaScript errors').toEqual([]);
+  expect(failedSameOriginRequests, 'Failed same-origin network requests').toEqual([]);
+});
+
