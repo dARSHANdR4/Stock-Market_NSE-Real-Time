@@ -1,37 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
-<title id="title">StockPulse system architecture</title>
-<desc id="desc">Browser UI calls Cloudflare Pages Functions for AI insights, Apps Script and Google Sheets provide historical stock data, and Groq powers server-side AI insights.</desc>
-<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0b1220"/><stop offset="1" stop-color="#102f3b"/></linearGradient><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#5eead4"/></marker></defs>
-<rect width="1200" height="430" rx="22" fill="url(#bg)"/>
-<text x="600" y="48" fill="#f8fafc" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="24" font-weight="800" text-anchor="middle">StockPulse · High-level architecture</text>
-<g font-family="Inter,Segoe UI,Arial,sans-serif">
-  <rect x="45" y="105" width="245" height="220" rx="18" fill="#172536" stroke="#475569"/>
-  <text x="167" y="143" fill="#ccfbf1" font-size="18" font-weight="700" text-anchor="middle">Browser UI</text>
-  <text x="167" y="172" fill="#cbd5e1" font-size="14" text-anchor="middle">HTML · Tailwind CSS</text>
-  <text x="167" y="195" fill="#cbd5e1" font-size="14" text-anchor="middle">JavaScript · Chart.js</text>
-  <text x="167" y="218" fill="#cbd5e1" font-size="14" text-anchor="middle">Date & stock selection</text>
-  <text x="167" y="241" fill="#cbd5e1" font-size="14" text-anchor="middle">Watchlist · RSI charts</text>
-  <text x="167" y="290" fill="#94a3b8" font-size="12" text-anchor="middle">Cloudflare Pages site</text>
-  <rect x="475" y="105" width="250" height="220" rx="18" fill="#123c40" stroke="#2dd4bf" stroke-width="1.5"/>
-  <text x="600" y="143" fill="#99f6e4" font-size="18" font-weight="700" text-anchor="middle">Pages Functions</text>
-  <text x="600" y="174" fill="#e2e8f0" font-size="14" text-anchor="middle">/api/health</text>
-  <text x="600" y="197" fill="#e2e8f0" font-size="14" text-anchor="middle">/api/insights</text>
-  <text x="600" y="230" fill="#cbd5e1" font-size="13" text-anchor="middle">Server-side API proxy</text>
-  <text x="600" y="253" fill="#cbd5e1" font-size="13" text-anchor="middle">Secret stored as env var</text>
-  <text x="600" y="290" fill="#5eead4" font-size="12" text-anchor="middle">Cloudflare Pages</text>
-  <rect x="910" y="75" width="245" height="125" rx="18" fill="#172536" stroke="#64748b"/>
-  <text x="1032" y="111" fill="#f8fafc" font-size="17" font-weight="700" text-anchor="middle">Google Apps Script</text>
-  <text x="1032" y="138" fill="#cbd5e1" font-size="13" text-anchor="middle">Google Sheets /</text>
-  <text x="1032" y="158" fill="#cbd5e1" font-size="13" text-anchor="middle">GOOGLEFINANCE data</text>
-  <rect x="910" y="235" width="245" height="125" rx="18" fill="#172536" stroke="#64748b"/>
-  <text x="1032" y="271" fill="#f8fafc" font-size="17" font-weight="700" text-anchor="middle">Groq API</text>
-  <text x="1032" y="298" fill="#cbd5e1" font-size="13" text-anchor="middle">LLM-generated insights</text>
-  <text x="1032" y="320" fill="#cbd5e1" font-size="13" text-anchor="middle">GROQ_API_KEY stays server-side</text>
-  <path d="M290 177 H462" stroke="#5eead4" stroke-width="2.5" marker-end="url(#arrow)"/>
-  <text x="376" y="163" fill="#99f6e4" font-size="12" text-anchor="middle">API request</text>
-  <path d="M725 164 H890" stroke="#5eead4" stroke-width="2.5" marker-end="url(#arrow)"/>
-  <text x="807" y="150" fill="#99f6e4" font-size="12" text-anchor="middle">Stock data</text>
-  <path d="M725 265 H890" stroke="#5eead4" stroke-width="2.5" marker-end="url(#arrow)"/>
-  <text x="807" y="251" fill="#99f6e4" font-size="12" text-anchor="middle">AI prompt</text>
-  <text x="600" y="395" fill="#94a3b8" font-size="12" text-anchor="middle">Simplified overview — external services may have their own availability and rate limits.</text>
-</g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460">
+  <rect width="1200" height="460" rx="20" fill="#0b1220"/>
+  <text x="600" y="48" fill="#f8fafc" font-family="Arial,sans-serif" font-size="26" font-weight="bold" text-anchor="middle">StockPulse — High-level architecture</text>
+  <rect x="35" y="100" width="255" height="250" rx="16" fill="#172536" stroke="#64748b" stroke-width="2"/>
+  <text x="162" y="140" fill="#99f6e4" font-family="Arial,sans-serif" font-size="21" font-weight="bold" text-anchor="middle">Browser UI</text>
+  <text x="162" y="180" fill="#e2e8f0" font-family="Arial,sans-serif" font-size="16" text-anchor="middle">HTML · Tailwind CSS</text>
+  <text x="162" y="210" fill="#e2e8f0" font-family="Arial,sans-serif" font-size="16" text-anchor="middle">JavaScript · Chart.js</text>
+  <text x="162" y="240" fill="#e2e8f0" font-family="Arial,sans-serif" font-size="16" text-anchor="middle">Stock search · RSI</text>
+  <text x="162" y="270" fill="#e2e8f0" font-family="Arial,sans-serif" font-size="16" text-anchor="middle">Charts · Watchlist</text>
+  <text x="162" y="320" fill="#94a3b8" font-family="Arial,sans-serif" font-size="14" text-anchor="middle">Cloudflare Pages</text>
+  <rect x="470" y="100" width="260" height="250" rx="16" fill="#123c40" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="600" y="140" fill="#99f6e4" font-family="Arial,sans-serif" font-size="21" font-weight="bold" text-anchor="middle">Pages Functions</text>
+  <text x="600" y="185" fill="#f8fafc" font-family="Arial,sans-serif" font-size="17" text-anchor="middle">/api/health</text>
+  <text x="600" y="215" fill="#f8fafc" font-family="Arial,sans-serif" font-size="17" text-anchor="middle">/api/insights</text>
+  <text x="600" y="260" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15" text-anchor="middle">Server-side API layer</text>
+  <text x="600" y="290" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15" text-anchor="middle">Secret stays protected</text>
+  <text x="600" y="320" fill="#5eead4" font-family="Arial,sans-serif" font-size="14" text-anchor="middle">Cloudflare Pages</text>
+  <rect x="910" y="80" width="255" height="135" rx="16" fill="#172536" stroke="#64748b" stroke-width="2"/>
+  <text x="1037" y="120" fill="#f8fafc" font-family="Arial,sans-serif" font-size="19" font-weight="bold" text-anchor="middle">Google Apps Script</text>
+  <text x="1037" y="155" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15" text-anchor="middle">Google Sheets</text>
+  <text x="1037" y="180" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15" text-anchor="middle">Google Finance data</text>
+  <rect x="910" y="245" width="255" height="135" rx="16" fill="#172536" stroke="#64748b" stroke-width="2"/>
+  <text x="1037" y="285" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20" font-weight="bold" text-anchor="middle">Groq API</text>
+  <text x="1037" y="320" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15" text-anchor="middle">AI-generated insights</text>
+  <text x="1037" y="345" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="13" text-anchor="middle">GROQ_API_KEY server-side</text>
+  <path d="M290 220 H450" stroke="#5eead4" stroke-width="4" fill="none"/>
+  <path d="M440 210 L455 220 L440 230" stroke="#5eead4" stroke-width="4" fill="none"/>
+  <text x="370" y="205" fill="#99f6e4" font-family="Arial,sans-serif" font-size="13" text-anchor="middle">AI requests</text>
+  <path d="M730 175 H890" stroke="#5eead4" stroke-width="4" fill="none"/>
+  <path d="M880 165 L895 175 L880 185" stroke="#5eead4" stroke-width="4" fill="none"/>
+  <text x="810" y="160" fill="#99f6e4" font-family="Arial,sans-serif" font-size="13" text-anchor="middle">Stock data</text>
+  <path d="M730 290 H890" stroke="#5eead4" stroke-width="4" fill="none"/>
+  <path d="M880 280 L895 290 L880 300" stroke="#5eead4" stroke-width="4" fill="none"/>
+  <text x="810" y="275" fill="#99f6e4" font-family="Arial,sans-serif" font-size="13" text-anchor="middle">AI prompt</text>
+  <text x="600" y="420" fill="#94a3b8" font-family="Arial,sans-serif" font-size="14" text-anchor="middle">Simplified view — external services may have their own uptime and rate limits.</text>
+</svg>
