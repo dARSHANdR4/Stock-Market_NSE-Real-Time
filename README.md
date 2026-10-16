@@ -42,7 +42,7 @@
   <img src="assets/stockpulse-architecture.svg" alt="StockPulse high-level architecture diagram" width="100%">
 </p>
 
-The banner above is a designed project illustration, not a live-data screenshot. The architecture diagram shows the main service boundaries at a high level.
+The banner at the top is a designed project illustration, not a live-data screenshot. The architecture diagram below shows the main service boundaries at a high level.
 
 ## 🧱 How it works
 
