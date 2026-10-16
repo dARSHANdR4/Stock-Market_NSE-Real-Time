@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+<title id="title">StockPulse — NSE Stock Data Explorer</title>
+<desc id="desc">A dark teal finance-themed banner with a rising market chart and AI insight card.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071b27"/><stop offset=".58" stop-color="#102f3b"/><stop offset="1" stop-color="#075e59"/></linearGradient>
+  <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2dd4bf" stop-opacity=".06"/><stop offset="1" stop-color="#2dd4bf" stop-opacity=".28"/></linearGradient>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#020617" flood-opacity=".4"/></filter>
+</defs>
+<rect width="1200" height="360" rx="24" fill="url(#bg)"/>
+<circle cx="1030" cy="60" r="190" fill="#2dd4bf" opacity=".06"/><circle cx="1140" cy="320" r="180" fill="#14b8a6" opacity=".08"/>
+<path d="M0 275 C160 240 210 300 360 255 S620 215 760 255 S1010 190 1200 220 V360 H0Z" fill="url(#glow)"/>
+<g font-family="Inter,Segoe UI,Arial,sans-serif">
+  <rect x="58" y="48" width="52" height="52" rx="15" fill="#2dd4bf"/>
+  <path d="M71 80 L82 68 L90 76 L101 59" fill="none" stroke="#073b3a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="128" y="82" fill="#ccfbf1" font-size="19" font-weight="700" letter-spacing="2">STOCKPULSE</text>
+  <text x="58" y="158" fill="#f8fafc" font-size="42" font-weight="800">NSE Stock Data Explorer</text>
+  <text x="60" y="199" fill="#cbd5e1" font-size="19">Historical prices. Interactive charts. AI-assisted insights.</text>
+  <rect x="60" y="232" width="168" height="39" rx="19" fill="#134e4a" stroke="#2dd4bf" stroke-opacity=".65"/>
+  <circle cx="80" cy="251" r="5" fill="#5eead4"/><text x="94" y="257" fill="#ccfbf1" font-size="14" font-weight="700">BUILT FOR NSE</text>
+  <g filter="url(#shadow)">
+    <rect x="740" y="52" width="400" height="244" rx="20" fill="#0b1724" stroke="#31515b"/>
+    <text x="770" y="84" fill="#94a3b8" font-size="12" font-weight="700" letter-spacing="1.5">ILLUSTRATIVE MARKET VIEW</text>
+    <text x="770" y="118" fill="#f8fafc" font-size="23" font-weight="700">Price history</text>
+    <text x="770" y="140" fill="#5eead4" font-size="13">Interactive chart + RSI</text>
+    <path d="M770 232 H1110 M770 202 H1110 M770 172 H1110" stroke="#334155" stroke-width="1" stroke-dasharray="4 6"/>
+    <path d="M775 224 L812 213 L844 225 L877 187 L910 199 L945 162 L978 176 L1013 142 L1048 158 L1080 116 L1110 126" fill="none" stroke="#2dd4bf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M775 224 L812 213 L844 225 L877 187 L910 199 L945 162 L978 176 L1013 142 L1048 158 L1080 116 L1110 126 L1110 247 L775 247Z" fill="#2dd4bf" opacity=".1"/>
+    <rect x="770" y="258" width="340" height="24" rx="8" fill="#123d3d"/>
+    <text x="782" y="274" fill="#99f6e4" font-size="11" font-weight="600">AI INSIGHTS · HISTORICAL ANALYSIS</text>
+  </g>
+</g>
+</svg>
