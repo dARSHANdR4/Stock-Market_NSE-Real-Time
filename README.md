@@ -39,7 +39,7 @@
 ## 🖼️ Visual overview
 
 <p align="center">
-  <img src="assets/stockpulse-architecture.svg" alt="StockPulse high-level architecture diagram" width="100%">
+  <img src="https://raw.githubusercontent.com/dARSHANdR4/Stock-Market_NSE-Real-Time/main/assets/stockpulse-architecture.svg?v=2" alt="StockPulse high-level architecture diagram" width="100%">
 </p>
 
 The banner at the top is a designed project illustration, not a live-data screenshot. The architecture diagram below shows the main service boundaries at a high level.
