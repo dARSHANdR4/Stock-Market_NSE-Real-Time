@@ -152,6 +152,14 @@ For local work, use a local secrets file supported by your development runner an
 - This project is for exploration and learning; it does **not** provide personalised financial advice or a guaranteed buy/sell signal.
 - Historical data and service uptime depend on third-party providers and their availability.
 
+## 📜 Code usage and copyright
+
+**Copyright © 2026 dARSHANdR4. All rights reserved.**
+
+If you want to explore or modify StockPulse, please **fork this public repository first** and work in your own fork rather than making changes directly to the original project. Please retain attribution to the original StockPulse project and link back to this repository.
+
+This repository does **not** include an open-source license. Please contact the repository owner to request permission before using the code commercially or redistributing it. This README notice explains the project's intended usage policy; it is not a substitute for a formal license or legal advice, and any rights or restrictions are subject to applicable law and GitHub's Terms of Service.
+
 ## 🤝 Contributing
 
 Issues and pull requests are welcome. For a useful bug report, include the selected stock/date, expected behaviour, actual behaviour, and a screenshot with any private information removed.
