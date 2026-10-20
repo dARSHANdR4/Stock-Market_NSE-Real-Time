@@ -169,3 +169,6 @@ Issues and pull requests are welcome. For a useful bug report, include the selec
 <p align="center">
   Built with care for curious NSE market explorers. 📈
 </p>
+
+
+For the full copyright and permissions notice, see [COPYRIGHT](./COPYRIGHT).
